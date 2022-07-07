@@ -1,0 +1,20 @@
+{
+  "CreateArticle": {
+    "description": "Auto imported from components/CreateArticle.vue"
+  },
+  "NuxtLogo": {
+    "description": "Auto imported from components/NuxtLogo.vue"
+  },
+  "TheFooter": {
+    "description": "Auto imported from components/TheFooter.vue"
+  },
+  "TheHeader": {
+    "description": "Auto imported from components/TheHeader.vue"
+  },
+  "TheHero": {
+    "description": "Auto imported from components/TheHero.vue"
+  },
+  "TheModal": {
+    "description": "Auto imported from components/TheModal.vue"
+  }
+}

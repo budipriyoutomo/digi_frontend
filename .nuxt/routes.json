@@ -1,0 +1,23 @@
+[
+  {
+    "name": "article",
+    "path": "/article",
+    "component": "D:\\\\Project\\\\digilab\\\\frontend\\\\pages\\\\article.vue",
+    "chunkName": "pages/article",
+    "_name": "_1a60e196"
+  },
+  {
+    "name": "create",
+    "path": "/create",
+    "component": "D:\\\\Project\\\\digilab\\\\frontend\\\\pages\\\\create.vue",
+    "chunkName": "pages/create",
+    "_name": "_68528a0d"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "D:\\\\Project\\\\digilab\\\\frontend\\\\pages\\\\index.vue",
+    "chunkName": "pages/index",
+    "_name": "_7ff5ca5e"
+  }
+]
