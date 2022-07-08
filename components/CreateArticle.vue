@@ -1,6 +1,6 @@
 <template>
  <div class="container">
-  <form action="">
+  <form @submit="store">
  <div  class="flex flex-wrap ">
                 <div class="w-2/3">
                   <h3 class="text-lg font-semibold mb-5">Create a New Article</h3>
@@ -23,7 +23,7 @@
                           ease-in-out
                           mb-2
                           focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                          alt="" id="title" name="title" placeholder="Title" >
+                          alt="" id="title" name="title" v-model="data.title" placeholder="Title" >
                       <textarea  class="
                                 form-control
                                 block
@@ -40,7 +40,7 @@
                                 ease-in-out
                                 m-0
                                 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                rows="15" name="desc" id="desc"  placeholder="Write Your Story" ></textarea>
+                                rows="15" name="desc" id="desc" v-model="data.desc" placeholder="Write Your Story" ></textarea>
                 </div>
                 <div class="px-4 w-1/3">
                   <h3 class="text-lg font-semibold mb-5">Publication Detail</h3>
@@ -62,7 +62,7 @@
                                 ease-in-out
                                 mb-2
                                 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                name="short_desc" id="short_desc"  placeholder="Write Your Story" rows="4"></textarea>
+                                name="short_desc" id="short_desc" v-model="data.short_desc" placeholder="Write Your Story" rows="4"></textarea>
                     </div>
                     <div  class="mb-2">
                       <label for="thumbnail"  class="form-label inline-block mb-2 text-gray-700">Thumbnail</label>
@@ -80,7 +80,7 @@
                                     transition
                                     ease-in-out
                                     m-0
-                                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="formFile">
+                                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="image"  >
                     </div>
                     <div class="mb-2">
                       <label for="categories"  class="form-label inline-block mb-2 text-gray-700">Categories</label>
@@ -98,7 +98,7 @@
                                       transition
                                       ease-in-out
                                       mb-2
-                                      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                                      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Select Me"  >
                                         <option selected>Open this select menu</option>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
@@ -107,10 +107,10 @@
                     </div>
                     <div class="form-check form-switch mb-2">
                       <label class="form-check-label inline-block text-gray-800" for="publish"> Publish</label>
-                      <input class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="publish" checked>
+                      <input class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="publish" v-model="data.is_visible"  checked>
                     </div>
                     <button
-                      type="button"
+                      type="submit"
                       class="inline-block px-6 py-2.5 bg-primary text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                     > Publish</button>
 
@@ -122,8 +122,35 @@
 </template>
 
 <script>
-export default {
+import Article from 'axios'
 
+export default {
+  data(){
+    return {
+      posts:[]
+    }
+  },
+  mounted (){
+    fetch('http://localhost:5000/article')
+      .then(response => {
+        response.json().then(posts => {
+          this.posts = posts
+        })
+      })
+  },
+  methods: {
+      async store(e) {
+       e.preventDefault()
+        await this.$axios.post('http://localhost:5000/article', {
+          title:   this.data.title,
+          short_desc: this.data.short_desc,
+          desc: this.data.desc,
+          image: this.data.image,
+          categoriy_id: this.data.categoriy_id,
+          is_visible: this.data.is_visible,
+        })
+    }
+  },
 }
 </script>
 

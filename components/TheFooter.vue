@@ -1,5 +1,5 @@
 <template>
-       <footer class="bg-primary lg:text-left">
+       <footer class="bg-primary text-left">
         <div class="text-slate-100 p-4">
           © 2022 Copyright:
           <a class="text-slate-100" href="">Budi Priyo Utomo </a>

@@ -58,10 +58,10 @@
           data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body relative p-4">
-          <form>
+          <form @submit="login">
             <div class="form-group mb-6">
-              <label for="exampleInputEmail2" class="form-label inline-block mb-2 text-gray-700">Email address</label>
-              <input type="email" class="form-control
+              <label for="email" class="form-label inline-block mb-2 text-gray-700">Email address</label>
+              <input type="email" v-model="data.email" class="form-control
                 block
                 w-full
                 px-3
@@ -79,8 +79,8 @@
                 aria-describedby="emailHelp" placeholder="Enter email">
             </div>
             <div class="form-group mb-6">
-              <label for="exampleInputPassword2" class="form-label inline-block mb-2 text-gray-700">Password</label>
-              <input type="password" class="form-control block
+              <label for="password" class="form-label inline-block mb-2 text-gray-700">Password</label>
+              <input type="password" v-model="data.password" class="form-control block
                 w-full
                 px-3
                 py-1.5
@@ -144,19 +144,18 @@
       <div
         class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
         <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalLabel">
-          RegisterModal
+          Register
         </h5>
         <button type="button"
           class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
           data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body relative p-4">
-          <div class="block p-6 rounded-lg shadow-lg bg-white max-w-md">
+          <div class="block p-6 rounded-lg shadow-lg bg-dark max-w-md">
             <form>
-              <div class="grid grid-cols-2 gap-4">
+
                 <div class="form-group mb-6">
-                  <input type="text" class="form-control
-                    block
+                  <input type="text" v-model="data.name" class="form-control block
                     w-full
                     px-3
                     py-1.5
@@ -169,30 +168,11 @@
                     transition
                     ease-in-out
                     m-0
-                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="exampleInput123"
-                    aria-describedby="emailHelp123" placeholder="First name">
+                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="name"
+                    aria-describedby="" placeholder="Name">
                 </div>
-                <div class="form-group mb-6">
-                  <input type="text" class="form-control
-                    block
-                    w-full
-                    px-3
-                    py-1.5
-                    text-base
-                    font-normal
-                    text-gray-700
-                    bg-white bg-clip-padding
-                    border border-solid border-gray-300
-                    rounded
-                    transition
-                    ease-in-out
-                    m-0
-                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="exampleInput124"
-                    aria-describedby="emailHelp124" placeholder="Last name">
-                </div>
-              </div>
               <div class="form-group mb-6">
-                <input type="email" class="form-control block
+                <input type="email" v-model="data.email" class="form-control block
                   w-full
                   px-3
                   py-1.5
@@ -209,7 +189,7 @@
                   placeholder="Email address">
               </div>
               <div class="form-group mb-6">
-                <input type="password" class="form-control block
+                <input type="password" v-model="data.password" class="form-control block
                   w-full
                   px-3
                   py-1.5
@@ -224,6 +204,40 @@
                   m-0
                   focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="exampleInput126"
                   placeholder="Password">
+              </div>
+              <div class="form-group mb-6">
+                <input type="password" v-model="data.confpassword" class="form-control block
+                  w-full
+                  px-3
+                  py-1.5
+                  text-base
+                  font-normal
+                  text-gray-700
+                  bg-white bg-clip-padding
+                  border border-solid border-gray-300
+                  rounded
+                  transition
+                  ease-in-out
+                  m-0
+                  focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="confpassword"
+                  placeholder="Confirm Password">
+              </div>
+              <div class="form-group mb-6">
+                <input type="number" v-model="data.phone" class="form-control block
+                  w-full
+                  px-3
+                  py-1.5
+                  text-base
+                  font-normal
+                  text-gray-700
+                  bg-white bg-clip-padding
+                  border border-solid border-gray-300
+                  rounded
+                  transition
+                  ease-in-out
+                  m-0
+                  focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="phone"
+                  placeholder="Phone">
               </div>
               <button type="submit" class="
                 w-full
@@ -315,7 +329,8 @@ export default {
 data() {
     return {
       isOpen: false,
-      showModal:false
+      showModal:false,
+      data:[]
     };
   },
   watch: {
@@ -337,6 +352,34 @@ data() {
   methods: {
     drawer() {
       this.isOpen = !this.isOpen;
+    },
+    login(){
+
+     fetch('http://localhost:5000/login')
+      .then(response => {
+        response.json().then(items => {
+          this.items = items
+            //     email: this.data.email,
+            //     password: this.data.password,
+        })
+      })
+
+    },
+    async register(e) {
+        e.preventDefault()
+        await this.$axios.post('http://localhost:5000/users', {
+          name:   this.data.name,
+          email: this.data.email,
+          password: this.data.password,
+          confpassword: this.data.confpassword,
+          phone: this.data.phone,
+        })
+    },
+    logout(){
+      fetch('http://localhost:5000/logout')
+      .then(response => {
+        response.json(res)
+      })
     }
   }
 };
